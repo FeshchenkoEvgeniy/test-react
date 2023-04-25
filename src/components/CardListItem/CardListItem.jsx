@@ -1,37 +1,75 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
-export const CardListItem = ({ user, tweets, followers, avatar }) => {
-  const [following, setFollowing] = useState(followers);
-  const [boolean, setBoolean] = useState(false);
-  const [text, setText] = useState("Follow");
-  const handleClick = () => {
-    if (!boolean) {
-      setBoolean(true);
-      setText("Following");
-      setFollowing((following) => following + 1);
-    } else {
-      setBoolean(false);
-      setFollowing((following) => following - 1);
-      setText("Follow");
-    }
+import { useState, useEffect } from "react";
+import {
+  DivCardItem,
+  DivAvatar,
+  ImgAvatar,
+  TweetsText,
+  FollowersText,
+  BtnFollowing,
+  BtnFollow,
+  DivLogo,
+} from "./CardListItem.styled";
+import logo from "../../assets/Logo.png";
+import picture from "../../assets/picture2 1.png";
+export const CardListItem = ({ user }) => {
+  const { id, tweets, followers, avatar } = user;
+  const [isFollowing, setIsFollowing] = useState(
+    JSON.parse(localStorage.getItem(`${id}-isFollowing`)) ?? false
+  );
+
+  const [followersNumber, setFollowersNumber] = useState(
+    JSON.parse(localStorage.getItem(`${id}-followersNumber`)) ?? followers
+  );
+
+  useEffect(() => {
+    localStorage.setItem(`${id}-isFollowing`, JSON.stringify(isFollowing));
+    localStorage.setItem(
+      `${id}-followersNumber`,
+      JSON.stringify(followersNumber)
+    );
+  }, [id, isFollowing, followersNumber]);
+
+  const handleClickFollow = () => {
+    setIsFollowing(true);
+    setFollowersNumber(followersNumber + 1);
+  };
+
+  const handleClickFollowing = () => {
+    setIsFollowing(false);
+    setFollowersNumber(followersNumber - 1);
   };
 
   return (
-    <li>
-      <img src={avatar} alt="avatar" />
-      <p>{user}</p>
-      <p>{tweets}</p>
-      <p>{following}</p>
-      <button type="text" onClick={handleClick}>
-        {text}
-      </button>
-    </li>
+    <div>
+      <DivCardItem>
+        <DivLogo>
+          <img src={logo} alt="logo" />
+        </DivLogo>
+        <div>
+          <img src={picture} alt="picture" style={{ marginTop: "20px" }} />
+        </div>
+        <DivAvatar>
+          <ImgAvatar src={avatar} alt="avatar" />
+        </DivAvatar>
+        <TweetsText>{tweets} TWEETS</TweetsText>
+        <FollowersText>
+          {new Intl.NumberFormat("en-US").format(followersNumber)} FOLLOWERS
+        </FollowersText>
+        {isFollowing ? (
+          <BtnFollowing type="button" onClick={handleClickFollowing}>
+            FOLLOWING
+          </BtnFollowing>
+        ) : (
+          <BtnFollow type="button" onClick={handleClickFollow}>
+            FOLLOW
+          </BtnFollow>
+        )}
+      </DivCardItem>
+    </div>
   );
 };
 
 CardListItem.propTypes = {
-  user: PropTypes.string.isRequired,
-  tweets: PropTypes.number.isRequired,
-  followers: PropTypes.number.isRequired,
-  avatar: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
 };
