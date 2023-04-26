@@ -8,7 +8,7 @@ export const Tweets = () => {
 
   return (
     <DivWrapper>
-      <BackLink to={"home"}>
+      <BackLink to="Home">
         Back <RiArrowGoBackLine />
       </BackLink>
       <CardList data={users} />
