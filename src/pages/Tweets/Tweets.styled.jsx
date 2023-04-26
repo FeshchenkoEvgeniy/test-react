@@ -11,6 +11,36 @@ export const DivWrapper = styled.div`
   background-color: #373737;
 `;
 
+export const DivSelect = styled.div`
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Label = styled.label`
+  font-family: Montserrat;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: white;
+`;
+
+export const Select = styled.select`
+  font-family: Montserrat;
+  font-size: 20px;
+  margin-left: 10px;
+  padding: 2px 10px;
+`;
+
+export const SelectText = styled.p`
+  font-family: Montserrat;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: white;
+`;
+
 export const BackLink = styled(Link)`
   font-family: "Montserrat";
   align-items: center;
